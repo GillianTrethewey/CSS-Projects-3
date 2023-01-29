@@ -23,6 +23,7 @@ const scrollToTop = () => {
 
 const categoryButton = document.getElementById("submit-button");
 categoryButton.addEventListener("click", fetchJokeCategory);
+const jokeContainer = document.getElementById("joke-container");
 
 async function fetchJokeCategory() {
   const category = document.getElementById("joke-categories").value;
@@ -38,9 +39,9 @@ async function fetchJokeCategory() {
     }
     const data = await response.json();
     console.log(data);
-    const jokeContainer = document.getElementById("joke-container");
     jokeContainer.innerHTML = `<p class="joke-display"> ${data.value} </p>`;
-    //jokeContainer.style.display = "block";
+    // jokeContainer.style.display = "block";
+    // used if joke is not initially displayed
   }
 }
 
@@ -58,6 +59,7 @@ submitButton.addEventListener("click", fetchJoke);
 
 async function fetchJoke() {
   let keyword = searchKeyword.value;
+  const jokeContainer = document.getElementById("joke-container");
   if (keyword) {
     const response = await fetch(
       `https://api.chucknorris.io/jokes/search?query=${keyword}`
@@ -70,12 +72,13 @@ async function fetchJoke() {
     }
     const data = await response.json();
     if (data.total > 0) {
-      const jokeContainer = document.getElementById("joke-container");
       jokeContainer.innerHTML = `<p class="joke-display"> ${data.result[0].value} </p>`;
-      //jokeContainer.style.display = "block";
+      // jokeContainer.style.display = "block";
+      // used if joke is not initially displayed
       searchKeyword.value = "";
     } else {
-      console.log("No jokes found with the keyword: " + keyword);
+      // console.log("No jokes found with the keyword: " + keyword);
+      jokeContainer.innerHTML = `<p class="joke-display">No jokes were found with the keyword: ${keyword}.</p>`;
     }
   }
   searchKeyword.placeholder = "Enter a keyword";
